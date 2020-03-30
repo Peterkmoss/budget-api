@@ -14,6 +14,7 @@ export default class UserRepository implements IUserRepository {
         )
 
         pool.getConnection((err, connection) => {
+            if (err) callback(500)
             connection.query('insert into users set ?', entity, (err, res) => {
                 connection.release()
                 if (err) callback(400)

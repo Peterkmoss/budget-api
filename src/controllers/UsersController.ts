@@ -17,7 +17,7 @@ router.post('/signup', validate(loginValidation), (req, res) => {
     const user = new UserDTO(req.body.username, req.body.password)
     repo.create(user, code => {
         console.log(code)
-        res.status(code)
+        res.status(code).json(code)
     }) // Ignoring status code for now
 })
 

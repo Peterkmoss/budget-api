@@ -6,4 +6,4 @@ create table users (
     salt varchar(16) not null,
     password varchar(255) not null,
     unique key 
-) engine = InnoDB ;
+) ENGINE = InnoDB ;

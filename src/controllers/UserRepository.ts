@@ -4,6 +4,8 @@ import User from '../models/User'
 import UserDTO from "../models/UserDTO";
 import connection from '../config/database'
 
+require('dotenv').config()
+
 export default class UserRepository implements IUserRepository {
     create(user: UserDTO): number {
         const salt = crypto.randomBytes(16).toString('hex')

@@ -2,7 +2,7 @@ import IUserRepository from "./IUserRepository";
 import crypto from 'crypto'
 import User from '../models/User'
 import UserDTO from "../models/UserDTO";
-import connection from '../config/database'
+import pool from '../config/database'
 
 export default class UserRepository implements IUserRepository {
     create(user: UserDTO): number {
@@ -13,9 +13,11 @@ export default class UserRepository implements IUserRepository {
             crypto.createHmac('sha512', salt).update(user.password).digest('hex')
         )
 
-        connection.connect()
-        connection.query('insert into users set ?', entity, (err, res) => {
-            if (err) console.log(err);
+        pool.getConnection((err, connection) => {
+            connection.query('insert into users set ?', entity, (err, res) => {
+                connection.release()
+                if (err) console.log(err);
+            })
         })
 
         console.log('User created')

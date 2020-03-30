@@ -2,7 +2,7 @@ drop table if exists users;
 
 create table users (
     id int auto_increment primary key,
-    username varchar(100) unique,
+    username varchar(255) unique
     salt varchar(16),
-    password varchar(100)
+    password varchar(255)
 );

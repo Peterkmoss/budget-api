@@ -17,7 +17,6 @@ export default class UserRepository implements IUserRepository {
         connection.query('insert into users set ?', entity, (err, res) => {
             if (err) console.log(err);
         })
-        connection.end()
 
         console.log('User created')
 

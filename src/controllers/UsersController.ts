@@ -15,9 +15,10 @@ const router = express.Router()
 router.post('/signup', validate(loginValidation), (req, res) => {
     const repo = new UserRepository()
     const user = new UserDTO(req.body.username, req.body.password)
-    const code = repo.create(user) // Ignoring status code for now
-    console.log(code)
-    res.redirect('back')
+    repo.create(user, code => {
+        console.log(code)
+        res.redirect('back')
+    }) // Ignoring status code for now
 })
 
 export default router

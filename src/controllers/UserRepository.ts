@@ -5,7 +5,7 @@ import UserDTO from "../models/UserDTO";
 import pool from '../config/database'
 
 export default class UserRepository implements IUserRepository {
-    create(user: UserDTO): number {
+    create(user: UserDTO, callback: (code: number) => void): void {
         const salt = crypto.randomBytes(16).toString('hex')
         const entity = new User(
             user.username,
@@ -13,21 +13,16 @@ export default class UserRepository implements IUserRepository {
             crypto.createHmac('sha512', salt).update(user.password).digest('hex')
         )
 
-        try {
-            pool.getConnection((err, connection) => {
-                connection.query('insert into users set ?', entity, (err, res) => {
-                    connection.release()
-                    if (err) throw err
-                })
+        pool.getConnection((err, connection) => {
+            connection.query('insert into users set ?', entity, (err, res) => {
+                connection.release()
+                if (err) callback(400)
+                else callback(201)
             })
-        } catch (error) {
-            return 400
-        }
-
-        return 201
+        })
     }
 
-    get(username: string): UserDTO {
+    get(username: string, callback: (user: UserDTO) => void): void {
         throw new Error("Method not implemented.");
     }
 }

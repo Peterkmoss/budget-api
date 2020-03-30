@@ -13,12 +13,16 @@ export default class UserRepository implements IUserRepository {
             crypto.createHmac('sha512', salt).update(user.password).digest('hex')
         )
 
+        console.log(user)
+
         connection.connect()
         connection.query('insert into users set ?', entity, (err, res) => {
             if (err) throw err;
             console.log(res)
         })
         connection.end()
+
+        console.log('User created')
 
         return 201
     }

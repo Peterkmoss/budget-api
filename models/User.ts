@@ -1,5 +1,4 @@
-
-class UserDTO {
+class User {
     username: string;
     password: string;
 
@@ -9,4 +8,4 @@ class UserDTO {
     }
 }
 
-export default UserDTO
+export default User

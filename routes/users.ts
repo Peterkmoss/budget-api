@@ -1,6 +1,6 @@
 import express from 'express'
 import { validate, ValidationError, Joi } from 'express-validation'
-import UserRepository from './repositories/UserRepository'
+import UserRepository from '../models/repositories/UserRepository'
 import User from '../models/User'
 import passport from 'passport'
 
@@ -16,8 +16,12 @@ const router = express.Router()
 router.post('/signup', validate(loginValidation), (req, res) => {
     const repo = new UserRepository()
     const user = new User(req.body.username, req.body.password)
-    repo.create(user, user => {
-        res.status(204).json(user)
+    repo.create(user, (err, user) => {
+        if (err) {
+            res.status(400).json({ message: err.message })
+            return
+        }
+        res.redirect('/login')
     })
 })
 
@@ -25,9 +29,5 @@ router.post('/login', validate(loginValidation), passport.authenticate('local', 
     successRedirect: '/',
     failureRedirect: '/login'
 }))
-
-router.get('/', (req, res) => {
-  res.json(new User('hello', 'world'));
-})
 
 module.exports = router;

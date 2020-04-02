@@ -20,5 +20,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "semi": "error",
+        "indent": "warn"
     }
 }

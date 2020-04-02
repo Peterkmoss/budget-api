@@ -68,7 +68,6 @@
     "routes",
     "config",
     "app.js",
-    "views",
     "public"
   ]
 }

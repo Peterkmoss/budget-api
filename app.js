@@ -11,7 +11,7 @@ const session = require('express-session');
 var usersRouter = require('./routes/users');
 var passport = require('passport');
 
-const initPassport = require('./config/passport');
+const initPassport = require('./config/passport').init;
 initPassport(passport);
 
 var app = express();

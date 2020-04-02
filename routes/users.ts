@@ -17,7 +17,7 @@ router.post('/signup', validate(loginValidation), (req, res) => {
     const repo = new UserRepository()
     const user = new User(req.body.username, req.body.password)
     repo.create(user, user => {
-        res.json(user)
+        res.status(204).json(user)
     })
 })
 

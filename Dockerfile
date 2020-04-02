@@ -10,6 +10,6 @@ RUN npm i
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
+EXPOSE 3000
 
-CMD [ "node", "./src/server/server.js" ]
+CMD [ "npm", "start" ]

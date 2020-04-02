@@ -1,16 +1,31 @@
+if (process.env.NODE_ENV !== 'production')
+  require('dotenv').config()
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require('express-session');
 
 var usersRouter = require('./routes/users');
+var passport = require('passport');
+
+const initPassport = require('./config/passport');
+initPassport(passport);
 
 var app = express();
 
 // view engine setup
 app.set('view engine', 'jade');
 
+app.use(session({ 
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -2,6 +2,7 @@ import express from 'express'
 import { validate, ValidationError, Joi } from 'express-validation'
 import UserRepository from './repositories/UserRepository'
 import User from '../models/User'
+import passport from 'passport'
 
 const loginValidation = {
     body: Joi.object({
@@ -20,7 +21,13 @@ router.post('/signup', validate(loginValidation), (req, res) => {
     })
 })
 
+router.post('/login', validate(loginValidation), passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+}))
+
 router.get('/', (req, res) => {
   res.json(new User('hello', 'world'));
 })
+
 module.exports = router;

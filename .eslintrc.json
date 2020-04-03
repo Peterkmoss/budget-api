@@ -20,7 +20,21 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "semi": "error",
-        "indent": "warn"
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "never"
+        ]
     }
 }

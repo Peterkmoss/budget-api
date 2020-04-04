@@ -1,4 +1,5 @@
 drop table if exists budgets_categories;
+drop table if exists users_categories;
 drop table if exists users;
 drop table if exists categories;
 
@@ -13,7 +14,7 @@ create table categories (
     category varchar(100) not null unique
 );
 
-create table budgets_categories (
+create table users_categories (
     user_id int references users(username),
     category_id int references categories(category),
     monthly_value float not null,

@@ -16,6 +16,6 @@ create table categories (
 create table budgets_categories (
     user_id int foreign key users(id),
     category_id int foreign key categories(id),
-    value int,
+    monthly_value int,
     primary key (user_id, category_id)
 );

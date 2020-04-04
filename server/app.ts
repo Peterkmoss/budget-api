@@ -1,8 +1,9 @@
 import express from 'express'
 const app = express()
+import morgan from 'morgan'
 import usersRouter from '../api/routes/users'
 import budgetRouter from '../api/routes/budgets'
-import morgan from 'morgan'
+import categoriesRouter from '../api/routes/categories'
 
 app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: false }))
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/users', usersRouter)
 app.use('/budgets', budgetRouter)
+app.use('/categories', categoriesRouter)
 
 app.use((req, res, next) => {
     const err = new Error('Not found')

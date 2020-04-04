@@ -15,8 +15,8 @@ create table categories (
 );
 
 create table users_categories (
-    user_id int references users(username),
-    category_id int references categories(category),
+    username varchar(100) references users(username),
+    category varchar(100) references categories(category),
     value float not null,
-    primary key (user_id, category_id)
+    primary key (username, category)
 );

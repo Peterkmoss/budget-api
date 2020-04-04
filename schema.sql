@@ -17,6 +17,6 @@ create table categories (
 create table users_categories (
     user_id int references users(username),
     category_id int references categories(category),
-    monthly_value float not null,
+    value float not null,
     primary key (user_id, category_id)
 );

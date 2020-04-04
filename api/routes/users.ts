@@ -1,48 +1,127 @@
 import express from 'express'
 const router = express.Router()
 import pool from '../config/database'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
+dotenv.config()
 
-router.get('/', (req, res, next) => {
-    res.status(200).json({
-        message: 'Get users'
-    })
-})
-
-router.post('/', (req, res, next) => {
+router.post('/register', (req, res) => {
+    const hashedPassword = bcrypt.hashSync(req.body.password, 10)
     const user = {
         username: req.body.username,
-        password: req.body.password
+        password: hashedPassword
     }
+
     pool.getConnection((err, connection) => {
         if (err) return res.status(500).json(err)
-        connection.query('insert into users set ?', user, () => {
-            delete user.password
-            res.status(201).json({
-                message: 'Created new user',
-                user: user
+        connection.query('select count(*) from users where username = ?', user.username, (err, results) => {
+            if (results[0]['count(*)'] > 0) {
+                connection.release()
+                return res.status(409).json({
+                    error: 'User exists'
+                })
+            }
+            connection.query('insert into users set ?', user, (err, results) => {
+                connection.release()
+                if (err) return res.status(500).json(err)
+                delete user.password
+                res.status(201).json({
+                    message: 'Created new user',
+                    user: user.username
+                })
             })
         })
     })
 })
 
-router.get('/:userId', (req, res, next) => {
-    const id = req.params.userId
-    res.status(200).json({
-        message: 'You passed userId: ' + id
+router.post('/login', (req, res) => {
+    const username = req.body.username
+    const password = req.body.password
+
+    pool.getConnection((err, connection) => {
+        if (err) return res.status(500).json(err)
+        connection.query('select * from users where username = ?', username, (err, results) => {
+            if (results.length === 0) {
+                connection.release()
+                return res.status(401).json({
+                    error: 'Invalid credentials'
+                })
+            }
+            const passwordsMatch = bcrypt.compareSync(password, results[0]['password'])
+            if (!passwordsMatch)
+                return res.status(401).json({
+                    error: 'Invalid credentials'
+                })
+            if (!process.env.JWT_TOKEN) return res.status(500).json({
+                error: 'Server secret not set. Could not issue token!'
+            })
+            const token = jwt.sign({
+                user_id: results[0]['id'],
+                username: username
+            }, process.env.JWT_TOKEN, { expiresIn: '1h' })
+            res.status(200).json({
+                message: 'Authenticated!',
+                token: token
+            })
+        })
     })
 })
 
-router.patch('/:userId', (req, res, next) => {
-    const id = req.params.userId
-    res.status(200).json({
-        message: 'Updated user: ' + id
+//TODO This should return something else...
+router.get('/:username', (req, res) => {
+    const username = req.params.username
+
+    pool.getConnection((err, connection) => {
+        if (err) return res.status(500).json(err)
+        connection.query('select username from users where username = ?', username, (err, results) => {
+            connection.release()
+            if (err) return res.status(500).json(err)
+            if (!results[0]) return res.status(404).json({
+                message: 'User not found'
+            })
+            res.status(201).json({
+                message: 'Got user: ' + username
+            })
+        })
     })
 })
 
-router.delete('/:userId', (req, res, next) => {
-    const id = req.params.userId
-    res.status(200).json({
-        message: 'Deleted user: ' + id
+// Updates the password for a given user
+router.patch('/:username', (req, res) => {
+    const username = req.params.username
+
+    pool.getConnection((err, connection) => {
+        if (err) return res.status(500).json(err)
+        connection.query('update users set password = ? where username = ?', [req.body.password, username], (err, results) => {
+            connection.release()
+            if (err) return res.status(500).json(err)
+            if (!(results['affectedRows'] > 0)) return res.status(404).json({
+                message: 'User not found'
+            })
+            res.status(201).json({
+                message: 'Updated password for user: ' + username
+            })
+        })
+    })
+})
+
+// Deletes a given user
+router.delete('/:username', (req, res) => {
+    const username = req.params.username
+
+    pool.getConnection((err, connection) => {
+        if (err) return res.status(500).json(err)
+        connection.query('delete from users where username = ?', username, (err, results) => {
+            connection.release()
+            if (err) return res.status(500).json(err)
+            if (!(results['affectedRows'] > 0)) return res.status(404).json({
+                message: 'User not found'
+            })
+            res.status(201).json({
+                message: 'Deleted user: ' + username
+            })
+        })
     })
 })
 

@@ -1,5 +1,6 @@
 import express from 'express'
 const router = express.Router()
+import pool from '../config/database'
 
 router.get('/', (req, res, next) => {
     res.status(200).json({
@@ -8,8 +9,19 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
-    res.status(201).json({
-        message: 'Post users'
+    const user = {
+        username: req.body.username,
+        password: req.body.password
+    }
+    pool.getConnection((err, connection) => {
+        if (err) return res.status(500).json(err)
+        connection.query('insert into users set ?', user, () => {
+            delete user.password
+            res.status(201).json({
+                message: 'Created new user',
+                user: user
+            })
+        })
     })
 })
 

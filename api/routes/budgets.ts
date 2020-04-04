@@ -9,8 +9,14 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
+    const budget = {
+        date: new Date(),
+        categories: req.body.categories,
+        values: req.body.values
+    }
     res.status(201).json({
-        message: 'Post budgets'
+        message: 'Post budgets',
+        budget: budget
     })
 })
 

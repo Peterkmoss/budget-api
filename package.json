@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node build/server/server.js"
+    "compile-w": "tsc -w",
+    "start": "nodemon build/server/server.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,15 @@
   "homepage": "https://github.com/Peterkmoss/budget-api#readme",
   "dependencies": {
     "@types/express": "^4.17.4",
+    "@types/morgan": "^1.9.0",
+    "@types/mysql": "^2.15.9",
     "@types/node": "^13.11.0",
-    "express": "^4.17.1"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }

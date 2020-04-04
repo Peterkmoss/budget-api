@@ -1,4 +1,3 @@
-drop table if exists budgets_categories;
 drop table if exists users_categories;
 drop table if exists users;
 drop table if exists categories;

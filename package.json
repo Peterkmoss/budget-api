@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "compile-w": "tsc -w",
-    "start": "nodemon build/server/server.js"
+    "start": "nodemon build/server/server.js",
+    "test": "jest --watchAll --runInBand --detectOpenHandles"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,11 @@
     "mysql": "^2.18.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "@types/jest": "^25.2.1",
+    "axios": "^0.19.2",
+    "jest": "^25.2.7",
+    "nodemon": "^2.0.2",
+    "ts-jest": "^25.3.1",
+    "typescript": "^3.8.3"
   }
 }

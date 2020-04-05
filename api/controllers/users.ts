@@ -74,7 +74,6 @@ export const loginUser: RequestHandler = (req, res) => {
                 error: 'Server secret not set. Could not issue token!'
             })
             const token = jwt.sign({
-                user_id: results[0]['id'],
                 username: username
             }, process.env.JWT_TOKEN, { expiresIn: '1h' })
             res.status(200).json({

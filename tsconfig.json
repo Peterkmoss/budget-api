@@ -67,5 +67,8 @@
     "api",
     "server",
     "custom.d.ts"
+  ],
+  "exclude": [
+    "**/*.spec.ts"
   ]
 }

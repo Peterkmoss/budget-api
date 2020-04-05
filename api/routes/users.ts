@@ -12,11 +12,8 @@ import {
 
 router.post('/register', registerUser)
 router.post('/login', loginUser)
-
 router.get('/:username', checkAuth, checkUser, getUserInfo)
-
 router.patch('/:username', checkAuth, checkUser, updatePassword)
-
 router.delete('/:username', checkAuth, checkUser, deleteUser)
 
 export default router

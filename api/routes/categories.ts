@@ -10,11 +10,8 @@ import {
 
 router.get('/', getAllCategories)
 router.get('/:category', getCategory)
-
 router.post('/', addCategory)
-
 router.patch('/:category', updateCategory)
-
 router.delete('/:category', deleteCategory)
 
 export default router

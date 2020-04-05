@@ -3,10 +3,10 @@ dotenv.config()
 import pool from '../config/database'
 import { RequestHandler } from 'express'
 
-export const newEntry: RequestHandler = (req, res) => {
+export const addBudget: RequestHandler = (req, res) => {
     const budget = {
-        username: req.body.username,
-        category: req.body.category,
+        username: req.params.username,
+        category: req.params.category,
         value: req.body.value
     }
 

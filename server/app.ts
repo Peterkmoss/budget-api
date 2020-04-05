@@ -20,9 +20,9 @@ app.use((req, res, next) => {
 })
 
 // Routes
-app.use('/users', usersRouter)
-app.use('/budgets', budgetRouter)
-app.use('/categories', categoriesRouter)
+app.use('/api/users', usersRouter)
+app.use('/api/budgets', budgetRouter)
+app.use('/api/categories', categoriesRouter)
 
 app.use((req, res, next) => {
     const err = new Error('Not found')

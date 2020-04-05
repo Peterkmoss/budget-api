@@ -1,8 +1,7 @@
 import { RequestHandler } from 'express'
 
-const handler: RequestHandler = (req, res, next) => {
+const checkUser: RequestHandler = (req, res, next) => {
     const token: any = req.userToken
-    console.log(token['username'])
     if (token['username'] !== req.params.username)
         return res.status(401).json({
             message: 'You do not have permissions to do that'
@@ -10,4 +9,4 @@ const handler: RequestHandler = (req, res, next) => {
     next()
 }
 
-export default handler
+export default checkUser

@@ -3,7 +3,7 @@ dotenv.config()
 import jwt from 'jsonwebtoken'
 import { RequestHandler } from 'express'
 
-const handler: RequestHandler = (req, res, next) => {
+const checkAuth: RequestHandler = (req, res, next) => {
     if (!process.env.JWT_TOKEN) return res.status(500).json({
         message: 'Server secret not set. Could not issue token!'
     })
@@ -19,4 +19,4 @@ const handler: RequestHandler = (req, res, next) => {
     }
 }
 
-export default handler
+export default checkAuth

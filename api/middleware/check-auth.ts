@@ -1,13 +1,15 @@
 import dotenv from 'dotenv'
 dotenv.config()
 import jwt from 'jsonwebtoken'
+import { RequestHandler } from 'express'
 
-export default (req: any, res: any, next: any) => {
+const handler: RequestHandler = (req, res, next) => {
     if (!process.env.JWT_TOKEN) return res.status(500).json({
-        error: 'Server secret not set. Could not issue token!'
+        message: 'Server secret not set. Could not issue token!'
     })
     try {
-        const decoded = jwt.verify(req.body.token, process.env.JWT_TOKEN)
+        const token = req.headers.authorization!.split(' ')[1]
+        const decoded = jwt.verify(token, process.env.JWT_TOKEN)
         req.userToken = decoded
         next()
     } catch (error) {
@@ -16,3 +18,5 @@ export default (req: any, res: any, next: any) => {
         })
     }
 }
+
+export default handler

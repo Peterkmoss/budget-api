@@ -4,6 +4,7 @@ import pool from '../config/database'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { RequestHandler } from 'express'
+import { registerValidation } from '../models/validations'
 
 export const deleteUser: RequestHandler = (req, res) => {
     const username = req.params.username
@@ -24,6 +25,8 @@ export const deleteUser: RequestHandler = (req, res) => {
 }
 
 export const registerUser: RequestHandler = (req, res) => {
+    const { error } = registerValidation(req.body)
+    if (error) return res.status(400).json({ message: error.details[0].message })
     const hashedPassword = bcrypt.hashSync(req.body.password, 10)
     const user = {
         username: req.body.username,

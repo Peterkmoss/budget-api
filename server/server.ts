@@ -1,9 +1,9 @@
-import https from 'https'
+import http from 'http'
 import app from './app'
 
 const port = process.env.PORT || 3000;
 
-const server = https.createServer(app);
+const server = http.createServer(app);
 
 server.listen(port);
 

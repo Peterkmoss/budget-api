@@ -46,6 +46,15 @@ describe('Users tests', () => {
         expect(result.status).toBe(401)
         expect(result.data['message']).toBe('Authentication failed')
     })
+
+    it('Returns the test user when calling get with a token', async () => {
+        const result = await axios.delete('http://localhost:3000/api/users/' + username, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        expect(result.data['message']).toContain('Deleted user')
+    })
 })
 
 async function clearDatabase() {

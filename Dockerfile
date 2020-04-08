@@ -1,7 +1,7 @@
 FROM node:12-slim
 WORKDIR /usr/src/app
 COPY package.json .
-RUN npm i --silent
+RUN npm i
 COPY . .
 RUN npm i -g typescript --silent
 RUN tsc

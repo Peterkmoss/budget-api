@@ -42,5 +42,4 @@ const errorHandler = (err: Error, req?: any, res?: any, next?: any) => {
 
 app.use(errorHandler)
 
-
 export default app

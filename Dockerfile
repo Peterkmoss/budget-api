@@ -5,5 +5,5 @@ RUN npm i --silent
 COPY . .
 RUN npm i -g typescript serve --silent
 RUN tsc
-EXPOSE 80
+EXPOSE 5000
 CMD ["serve", "./build" ]

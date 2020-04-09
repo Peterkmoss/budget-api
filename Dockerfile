@@ -6,4 +6,4 @@ COPY . .
 RUN npm i -g typescript serve --silent
 RUN tsc
 EXPOSE 5000
-CMD ["serve", "./build" ]
+CMD ["serve", "-s", "build" ]

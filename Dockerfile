@@ -3,7 +3,7 @@ WORKDIR /usr/src/app
 COPY package.json .
 RUN npm i --silent
 COPY . .
-RUN npm i -g typescript serve --silent
+RUN npm i -g typescript --silent
 RUN tsc
-EXPOSE 5000
-CMD ["serve", "-s", "build" ]
+EXPOSE 3000
+CMD ["node", "./build/server/server.js" ]

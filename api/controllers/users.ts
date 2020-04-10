@@ -62,7 +62,7 @@ export const loginUser: RequestHandler = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) return res.status(500).json(err)
         connection.query('select * from users where username = ?', username, (err, results) => {
-            if (results.length === 0) {
+            if (!results || results.length === 0) {
                 connection.release()
                 return res.status(401).json({
                     error: 'Invalid credentials'

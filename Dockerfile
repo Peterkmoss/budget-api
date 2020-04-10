@@ -2,8 +2,8 @@ FROM node:12
 WORKDIR /usr/src/app
 COPY package.json .
 RUN npm i --silent
-COPY . .
-RUN npm i -g typescript --silent
-RUN tsc
 EXPOSE 3000
+RUN npm i -g typescript --silent
+COPY . .
+RUN tsc
 CMD ["node", "./build/server/server.js" ]

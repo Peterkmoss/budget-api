@@ -73,6 +73,7 @@ export const loginUser: RequestHandler = (req, res) => {
                 return res.status(401).json({
                     error: 'Invalid credentials'
                 })
+            dotenv.config()
             if (!process.env.JWT_TOKEN) return res.status(500).json({
                 error: 'Server secret not set. Could not issue token!'
             })
@@ -87,7 +88,7 @@ export const loginUser: RequestHandler = (req, res) => {
     })
 }
 
-//TODO This should return something else...
+//TODO This should maybe return the user info instead of just the username...
 export const getUserInfo: RequestHandler = (req, res) => {
     const username = req.params.username
 

@@ -73,13 +73,12 @@ export const loginUser: RequestHandler = (req, res) => {
                 return res.status(401).json({
                     error: 'Invalid credentials'
                 })
-            dotenv.config()
-            if (!process.env.JWT_TOKEN) return res.status(500).json({
+            if (!process.env.JWT_SECRET) return res.status(500).json({
                 error: 'Server secret not set. Could not issue token!'
             })
             const token = jwt.sign({
                 username: username
-            }, process.env.JWT_TOKEN, { expiresIn: '1h' })
+            }, process.env.JWT_SECRET, { expiresIn: '1h' })
             res.status(200).json({
                 message: 'Authenticated!',
                 token: token

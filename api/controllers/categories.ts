@@ -36,7 +36,7 @@ export const addCategory: RequestHandler = (req, res) => {
 
     pool.getConnection((err, connection) => {
         if (err) return res.status(500).json(err)
-        connection.query('insert into categories set ?', category, (err, results) => {
+        connection.query('insert into categories set ?', category, (err) => {
             connection.release()
             if (err) return res.status(500).json(err)
             res.status(201).json({

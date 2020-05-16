@@ -1,12 +1,10 @@
-import express from 'express'
+import express, {NextFunction} from 'express'
 const app = express()
 import morgan from 'morgan'
-import usersRouter from '../api/routes/users'
-import budgetRouter from '../api/routes/budgets'
 import categoriesRouter from '../api/routes/categories'
 
 app.use(morgan('dev'))
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 
 app.use((req, res, next) => {
@@ -20,17 +18,15 @@ app.use((req, res, next) => {
 })
 
 // Routes
-app.use('/api/users', usersRouter)
-app.use('/api/budgets', budgetRouter)
 app.use('/api/categories', categoriesRouter)
 
-app.use((req, res, next) => {
+app.use((next: NextFunction) => {
     const err = new Error('Not found')
     next(err)
 })
 
-const errorHandler = (err: Error, req?: any, res?: any, next?: any) => {
-    let status;
+const errorHandler = (err: Error, res?: any) => {
+    let status
     if (err) status = 404
     res.status(status || 500)
     res.json({

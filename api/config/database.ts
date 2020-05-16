@@ -2,9 +2,7 @@ import mysql from 'mysql'
 import dotenv from 'dotenv'
 dotenv.config()
 
-let pool: mysql.Pool
-
-pool = mysql.createPool({
+const pool = mysql.createPool({
     connectionLimit: 10,
     host: process.env.DB_HOST,
     user: process.env.DB_USER,

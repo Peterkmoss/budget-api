@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import express, {NextFunction} from 'express'
 const app = express()
 import morgan from 'morgan'
